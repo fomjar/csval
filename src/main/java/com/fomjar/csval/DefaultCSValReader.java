@@ -16,7 +16,7 @@ class DefaultCSValReader implements CSValReader {
     @Override
     public void line(int row, String[] vals) {
         switch (row) {
-        case 0:
+        case 1:
             this.csv.head(vals);
             break;
         default:

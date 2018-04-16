@@ -2,6 +2,7 @@ package com.fomjar.csval;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +19,7 @@ import java.util.List;
  * 
  * @author fomjar
  */
-public abstract class CSVal {
+public class CSVal {
     
     /**
      * csv configuration class.
@@ -160,12 +161,30 @@ public abstract class CSVal {
     public void write(OutputStream os) throws IOException {
         String lineSeparator = System.getProperty("line.separator");
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, this.conf.charset));
-        bw.write(buildLine(head()));
-        for (String[] vals : body()) {
+        bw.write(buildLine(this.head()));
+        for (String[] vals : this.body()) {
             bw.write(lineSeparator);
             bw.write(buildLine(vals));
         }
         bw.flush();
+    }
+    
+    @Override
+    public String toString() {
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	try {
+			this.write(baos);
+			return baos.toString(this.conf.charset).intern();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				baos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+    	return null;
     }
     
 }
