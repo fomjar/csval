@@ -19,6 +19,6 @@ csv.read(file, new CSValReader() {
     public void line(int row, String[] vals) {
         System.out.println(String.format("[ROW %08d] %s", row, Arrays.asList(vals).toString());
     }
-})
+});
 ```
 
